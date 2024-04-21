@@ -1,6 +1,10 @@
 import "./App.css";
+import React, { useState } from "react";
 
 async function App() {
+  const [endPoint, setEndPoint] = useState("");
+  const [container, setContainer] = useState([]);
+
   const url = "https://imdb8.p.rapidapi.com/auto-complete?q=game%20of%20thr";
   const options = {
     method: "GET",
@@ -12,13 +16,23 @@ async function App() {
 
   try {
     const response = await fetch(url, options);
-    const result = await response.text();
+    const result = await response.json();
     console.log(result);
   } catch (error) {
     console.error(error);
   }
 
-  return <div className="App"></div>;
+  const onChangeHandler = (e) => {
+    setEndPoint(e.target.value);
+  };
+  return (
+    <div className="App">
+      <form>
+        <input type="text" value={endPoint} onChange={onChangeHandler} />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
 }
 
 export default App;
